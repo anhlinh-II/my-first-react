@@ -2,15 +2,31 @@
 // function component
 
 import React from "react";
+import UserInfor from "./UserInfor";
+import DisplayInfor from "./DisplayInfor";
 
 class MyComponent extends React.Component {
-    
-    // JSX
+    state = {
+        listUsers: [
+            {
+                id: 1, name: 'Thuyvan', age: 19
+            },
+            {
+                id: 2, name: 'Thuyveo', age: 19
+            },
+            {
+                id: 3, name: 'Thuyanh', age: 19
+            },
+        ]
+    }
+
     render() {
-        return(
+        return (
             <div>
-                my first component 
-                {Math.random()}
+                <UserInfor />
+                <DisplayInfor
+                    listUsers={this.state.listUsers}
+                />
             </div>
         );
     }
