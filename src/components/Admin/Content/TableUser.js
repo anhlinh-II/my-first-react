@@ -1,23 +1,12 @@
-import { useEffect, useState } from "react";
-import {getAllUsers}  from "../../../services/apiService";
+
 
 const TableUser = (props) => {
+     const { listUsers } = props;
 
-     const [listUsers, setListUsers] = useState([
-          
-     ])
+     // const [listUsers, setListUsers] = useState([])
 
      // useEffect run after return (componentDidMount)
-     useEffect(async () => {
-          fetchListUsers();
-     }, []);
-
-     const fetchListUsers = async () => {
-          let res = await getAllUsers();
-          if(res.EC === 0) {
-               setListUsers(res.DT)
-          }
-     }
+     
 
      return (
           <>
