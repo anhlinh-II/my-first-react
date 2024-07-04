@@ -17,20 +17,25 @@ const Login = (props) => {
           let data = await postLogin(email, password);
           if(data && data.EC === 0) {
                toast.success(data.EM);
+               navigate('/')
           }
 
           if(data && data.EC !== 0) {
                toast.error(data.EM);
           }
 
-          navigate('/')
+          
+     }
+
+     const handleClickBtnSignup = () => {
+          navigate('/register')
      }
 
      return (
           <div className="login-container">
                <div className='header'>
                     <span>Don't have an account yet?</span>
-                    <button>Sign up</button>
+                    <button onClick={() => handleClickBtnSignup()}>Sign up</button>
                </div>
                <div className='title col-4 mx-auto'>
                     ThuyVanNe
