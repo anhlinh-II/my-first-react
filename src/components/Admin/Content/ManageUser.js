@@ -7,24 +7,26 @@ import ModalUpdateUser from "./ModalUpdateUser";
 import ModalDeleteUser from "./ModalDeleteUser";
 import ModalViewUser from "./ModalViewUser";
 import TableUserPaginate from "./TableUserPaginate";
+import { set } from "lodash";
 // import { fromPairs } from "lodash";
 
 const ManageUser = (props) => {
-     const LIMIT_USER = 6;
-     const [pageCount, setPageCount] = useState(0)
+     const LIMIT_USER = 3;
+     const [pageCount, setPageCount] = useState(0);
+     const [currentPage, setCurrentPage] = useState(1)
 
-     const [showModalCreateUser, setShowModalCreateUser] = useState(false)
-     
-     const [showModalUpdateUser, setShowModalUpdateUser] = useState(false)
-     const [dataUpdate, setDataUpdate] = useState({})
+     const [showModalCreateUser, setShowModalCreateUser] = useState(false);
 
-     const [showModalDeleteUser, setShowModalDeleteUser] = useState(false)
-     const [dataDelete, setDataDelete] = useState({})
+     const [showModalUpdateUser, setShowModalUpdateUser] = useState(false);
+     const [dataUpdate, setDataUpdate] = useState({});
 
-     const [dataView, setDataView] = useState({})
-     const [showModalViewUser, setShowModalViewUser] = useState(false)
+     const [showModalDeleteUser, setShowModalDeleteUser] = useState(false);
+     const [dataDelete, setDataDelete] = useState({});
 
-     const [listUsers, setListUsers] = useState([])
+     const [dataView, setDataView] = useState({});
+     const [showModalViewUser, setShowModalViewUser] = useState(false);
+
+     const [listUsers, setListUsers] = useState([]);
 
      useEffect(() => {
           fetchListUsersWithPaginate(1);
@@ -91,14 +93,19 @@ const ManageUser = (props) => {
                               handleClickBtnView={handleClickBtnView}
                               handleClickBtnUpdate={handleClickBtnUpdate}
                               handleClickBtnDelete={handleClickBtnDelete}
-                              fetchListUsersWithPaginate={fetchListUsersWithPaginate}
                               pageCount={pageCount}
+                              fetchListUsersWithPaginate={fetchListUsersWithPaginate}
+                              currentPage={currentPage}
+                              setCurrentPage={setCurrentPage}
                          />
                     </div>
                     <ModalCreateUser
                          show={showModalCreateUser}
                          setShow={setShowModalCreateUser}
                          fetchListUsers={fetchListUsers}
+                         fetchListUsersWithPaginate={fetchListUsersWithPaginate}
+                         currentPage={currentPage}
+                         setCurrentPage={setCurrentPage}
                     />
                     <ModalUpdateUser
                          show={showModalUpdateUser}
@@ -106,17 +113,26 @@ const ManageUser = (props) => {
                          fetchListUsers={fetchListUsers}
                          dataUpdate={dataUpdate}
                          resetUpdateData={resetUpdateData}
+                         fetchListUsersWithPaginate={fetchListUsersWithPaginate}
+                         currentPage={currentPage}
+                         setCurrentPage={setCurrentPage}
                     />
                     <ModalDeleteUser
                          show={showModalDeleteUser}
                          setShow={setShowModalDeleteUser}
                          dataDelete={dataDelete}
                          fetchListUsers={fetchListUsers}
+                         fetchListUsersWithPaginate={fetchListUsersWithPaginate}
+                         currentPage={currentPage}
+                         setCurrentPage={setCurrentPage}
                     />
-                    <ModalViewUser 
+                    <ModalViewUser
                          show={showModalViewUser}
                          setShow={setShowModalViewUser}
                          dataView={dataView}
+                         fetchListUsersWithPaginate={fetchListUsersWithPaginate}
+                         currentPage={currentPage}
+                         setCurrentPage={setCurrentPage}
                     />
                </div>
           </div>
