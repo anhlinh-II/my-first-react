@@ -1,4 +1,4 @@
-import { FETCH_USER_LOGIN_SUCCESS } from '../action/userAction'  
+import {FETCH_USER_LOGIN_SUCCESS} from '../action/userAction'
 
 const INITIAL_STATE = {
      account: {
