@@ -9,7 +9,7 @@ const DetailQuiz = (props) => {
      const params = useParams();
      const quizId = params.id;
      const location = useLocation();
-     console.log('check location >> ', location)
+     // console.log('check location >> ', location)
 
      const [dataQuiz, setDataQuiz] = useState([]);
      const [index, setIndex] = useState(0);
@@ -43,7 +43,7 @@ const DetailQuiz = (props) => {
                          return { questionId: key, answers, questionDescription, image }
                     })
                     .value();
-               console.log("check data >> ", data)
+               // console.log("check data >> ", data)
                setDataQuiz(data)
           }
      }
