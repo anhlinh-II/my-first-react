@@ -21,7 +21,7 @@ const DetailQuiz = (props) => {
 
      const fetchQuestion = async () => {
           let res = await getDataQuiz(quizId);
-
+          // console.log(res)
           if (res && res.EC === 0) {
                let raw = res.DT;
                let data = _.chain(raw)
@@ -71,10 +71,38 @@ const DetailQuiz = (props) => {
                question.answers = b;
           }
           let index = dataQuizClone.findIndex(item => +item.questionId === +questionId)
-          if(index > -1) {
+          if (index > -1) {
                dataQuizClone[index] = question;
                setDataQuiz(dataQuizClone);
           }
+     }
+
+     const handleFinish = () => {
+          console.log('check data >> ', dataQuiz)
+          let payload = {
+               quizId: +quizId,
+               answers: []
+          }
+          let answers = []
+          if (dataQuiz && dataQuiz.length > 0) {
+               dataQuiz.map(question => {
+                    let questionId = question.questionId
+                    let userAnswerId = []
+
+                    question.answers.forEach(a => {
+                         if(a.isSelected === true) {
+                              userAnswerId.push(a.id)
+                         }
+                    })
+
+                    answers.push({
+                         questionId: +questionId,
+                         userAnswerId
+                    })
+               })
+               payload.answers = answers;
+          }
+          console.log('check payload >> ', payload)
      }
 
      return (
@@ -108,7 +136,7 @@ const DetailQuiz = (props) => {
                          >Next</button>
                          <button
                               className="btn btn-warning"
-                              onClick={() => handleNext()}
+                              onClick={() => handleFinish()}
                          >Finish</button>
                     </div>
                </div>

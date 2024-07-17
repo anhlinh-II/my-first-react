@@ -34,7 +34,6 @@ const ListQuiz = (props) => {
                                         <p className="card-text">{quiz.description}</p>
                                         <button href="#" className="btn btn-primary" onClick={() => {
                                              const state = { quizTitle: quiz.description };
-                                             console.log("check listQuiz state >> ", state)
                                              return navigate(`/quiz/${quiz.id}`, { state })
                                         }}>Start Now</button>
                                    </div>
