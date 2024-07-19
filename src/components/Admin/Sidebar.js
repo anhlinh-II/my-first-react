@@ -14,13 +14,16 @@ import { FaTachometerAlt, FaGem, FaList, FaGithub, FaRegLaughWink, FaHeart } fro
 
 import { DiReact } from 'react-icons/di';
 import { MdDashboard } from 'react-icons/md';
-import './Sidebar.scss'; 
-import { Link } from 'react-router-dom';
+import './Sidebar.scss';
+import { Link, useNavigate } from 'react-router-dom';
 
 import sidebarBg from '../../assets/bg2.jpg';
 
 
 const SideBar = ({ image, collapsed, toggled, handleToggleSidebar }) => {
+
+     const naviage = useNavigate();
+
      return (
           <>
                <ProSidebar
@@ -44,7 +47,9 @@ const SideBar = ({ image, collapsed, toggled, handleToggleSidebar }) => {
                               }}
                          >
                               <DiReact size={'3em'} color='00bfff' />
-                              <span>HOI THUY VAN</span>
+                              <span onClick={() => naviage('/')}>
+                                   HOI THUY VAN
+                              </span>
                          </div>
                     </SidebarHeader>
 
@@ -66,7 +71,10 @@ const SideBar = ({ image, collapsed, toggled, handleToggleSidebar }) => {
                                         Quản Lý User
                                         <Link to="/admins/manage-users" />
                                    </MenuItem>
-                                   <MenuItem>Quản Lý Bài Quiz</MenuItem>
+                                   <MenuItem>
+                                        Quản Lý Bài Quiz
+                                        <Link to="/admins/manage-quizzes" />
+                                   </MenuItem>
                                    <MenuItem>Quản Lý Câu Hỏi</MenuItem>
                               </SubMenu>
 
