@@ -4,7 +4,8 @@ import { BsFillPatchPlusFill, BsFillPatchMinusFill } from "react-icons/bs";
 import { AiOutLineMinusCircle, AiFillPlusSquare, AiFillMinusCircle } from "react-icons/ai";
 import { RiImageAddFill } from "react-icons/ri"
 import { v4 as uuidv4 } from 'uuid';
-import _ from 'lodash'
+import Lightbox from "react-awesome-lightbox";
+import _, { set } from 'lodash'
 import './Questions.scss'
 
 const Questions = (props) => {
@@ -32,6 +33,12 @@ const Questions = (props) => {
                }
           ]
      )
+
+     const [isPreviewImage, setIsPreviewImage] = useState(false);
+     const [dataImagePreview, setDataImagePreview] = useState({
+          title: '',
+
+     });
 
      const handleAddRemoveQuestion = (type, id) => {
           if (type === 'ADD') {
@@ -136,7 +143,19 @@ const Questions = (props) => {
      }
 
      const handleSubmitQuestionForQuiz = () => {
-          
+
+     }
+
+     const handlePreviewImage = (questionId) => {
+          let questionsClone = _.cloneDeep(questions);
+          let index = questionsClone.findIndex(item => item.id === questionId)
+          if(index > -1) {
+               setDataImagePreview({
+                    url: URL.createObjectURL(questionsClone[index].imageFile),
+                    title: questionsClone[index].imageName
+               })
+               setIsPreviewImage(true)
+          }
      }
 
      return (
@@ -185,7 +204,18 @@ const Questions = (props) => {
                                                        hidden
                                                        onChange={(event) => handleOnchangeFileQuestion(question.id, event)}
                                                   />
-                                                  <span>{question.imageName ? question.imageName : '0 file is uploaded'}</span>
+                                                  <span>
+                                                       {question.imageName
+                                                            ? <span
+                                                                 style={{ cursor: 'pointer' }}
+                                                                 onClick={() => handlePreviewImage(question.id)}
+                                                            >
+                                                                 {question.imageName}
+                                                            </span>
+                                                            : '0 file is uploaded'
+                                                       }
+
+                                                  </span>
                                              </div>
                                              <div className='btn-add'>
 
@@ -218,7 +248,7 @@ const Questions = (props) => {
                                                                       className="form-control"
                                                                       placeholder="..."
                                                                       onChange={(e) => handleOnchange('ANSWER', question.id, e.target.value, answer.id)}
-                                                                      // onChange={(event) => handleAnswerQuestion('INPUT', answer.id, question.id, event.target.value)}
+                                                                 // onChange={(event) => handleAnswerQuestion('INPUT', answer.id, question.id, event.target.value)}
                                                                  />
                                                                  <label>Answer {index + 1}</label>
                                                             </div>
@@ -237,22 +267,26 @@ const Questions = (props) => {
                                                   )
                                              })
                                         }
-
                                    </div>
                               )
                          })
                     }
-
                     {
                          questions && questions.length > 0 &&
                          <div>
-                              <button 
-                              onClick={() => handleSubmitQuestionForQuiz()}
-                              className='btn btn-warning'>Save Questions</button>
+                              <button  
+                                   onClick={() => handleSubmitQuestionForQuiz()}
+                                   className='btn btn-warning'>Save Questions</button>
                          </div>
                     }
-
-
+                    {
+                         isPreviewImage === true &&
+                         <Lightbox
+                              image={dataImagePreview.url}
+                              title={dataImagePreview.title}
+                              onClose={() => setIsPreviewImage(false)}
+                         />
+                    }
                </div>
           </div>
      )
