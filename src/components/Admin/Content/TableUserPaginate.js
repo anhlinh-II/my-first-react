@@ -3,11 +3,9 @@ import { useState, useEffect } from 'react';
 
 const TableUserPaginate = (props) => {
      const { listUsers, handleClickBtnView, handleClickBtnUpdate, handleClickBtnDelete, pageCount } = props;
-     console.log(props)
 
      const handlePageClick = (event) => {
           props.fetchListUsersWithPaginate(+event.selected + 1);
-          console.log(`User requested page number ${event.selected}`);
      };
 
      return (
@@ -53,7 +51,7 @@ const TableUserPaginate = (props) => {
                     <ReactPaginate
                          nextLabel="next >"
                          onPageChange={handlePageClick}
-                         pageRangeDisplayed={3}
+                         pageRangeDisplayed={2}
                          marginPagesDisplayed={2}
                          pageCount={pageCount}
                          previousLabel="< previous"
@@ -69,7 +67,7 @@ const TableUserPaginate = (props) => {
                          containerClassName="pagination"
                          activeClassName="active"
                          renderOnZeroPageCount={null}
-                         forcePage={props.currentPage}
+                         forcePage={props.currentPage - 1}
                     />
                </div>
           </>

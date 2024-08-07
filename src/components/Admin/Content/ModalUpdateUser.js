@@ -68,6 +68,8 @@ const ModalUpdateUser = (props) => {
                return;
           }
 
+          console.log('check data user for submitting >> ', dataUpdate.id, username, role, image)
+
           let data = await putUpdateUser(dataUpdate.id, username, role, image)          
 
           if(data && data.EC === 0) {

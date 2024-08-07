@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './ManageQuiz.scss';
 import Select from 'react-select';
-import { postCreateNewQuiz } from '../../../../services/apiService';
+import { postCreateNewQuiz, getAllQuizForAdmin } from '../../../../services/apiService';
 import { toast } from 'react-toastify';
 import TableQuiz from './TableQuiz';
 import Accordion from 'react-bootstrap/Accordion';
@@ -102,7 +102,7 @@ const ManageQuiz = (props) => {
                     </Accordion.Item>
                </Accordion>
                <div className="list-detail">
-                    <TableQuiz />
+                    <TableQuiz/>
                </div>
           </div>
      )

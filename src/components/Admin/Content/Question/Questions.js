@@ -1,19 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { BsFillPatchPlusFill, BsFillPatchMinusFill } from "react-icons/bs";
-import { AiOutLineMinusCircle, AiFillPlusSquare, AiFillMinusCircle } from "react-icons/ai";
+import { AiFillPlusSquare, AiFillMinusCircle } from "react-icons/ai";
 import { RiImageAddFill } from "react-icons/ri"
 import { v4 as uuidv4 } from 'uuid';
+import { getAllQuizForAdmin, postCreateNewAnswerForQuestion, postCreateQuestionForQuiz } from "../../../../services/apiService";
 import Lightbox from "react-awesome-lightbox";
-import _, { set } from 'lodash'
-import './Questions.scss'
+import _ from 'lodash';
+import './Questions.scss';
 
 const Questions = (props) => {
-     const options = [
-          { value: 'chocolate', label: 'Chocolate' },
-          { value: 'strawberry', label: 'Strawberry' },
-          { value: 'vanilla', label: 'Vanilla' },
-     ];
+     // const options = [
+     //      { value: 'chocolate', label: 'Chocolate' },
+     //      { value: 'strawberry', label: 'Strawberry' },
+     //      { value: 'vanilla', label: 'Vanilla' },
+     // ];
      const [selectedQuiz, setSelectedQuiz] = useState({});
 
      const [questions, setQuestions] = useState(
@@ -37,8 +38,27 @@ const Questions = (props) => {
      const [isPreviewImage, setIsPreviewImage] = useState(false);
      const [dataImagePreview, setDataImagePreview] = useState({
           title: '',
-
+          url: ''
      });
+
+     const [listQuiz, setListQuiz] = useState([])
+
+     useEffect(() => {
+          fetchQuiz();
+     }, []);
+
+     const fetchQuiz = async () => {
+          let res = await getAllQuizForAdmin()
+          if (res && res.EC === 0) {
+               let newQuiz = res.DT.map(item => {
+                    return {
+                         value: item.id,
+                         label: `${item.id} - ${item.description}`
+                    }
+               })
+               setListQuiz(newQuiz)
+          }
+     }
 
      const handleAddRemoveQuestion = (type, id) => {
           if (type === 'ADD') {
@@ -142,14 +162,33 @@ const Questions = (props) => {
           }
      }
 
-     const handleSubmitQuestionForQuiz = () => {
+     const handleSubmitQuestionForQuiz = async () => {
+
+          // todo
+          // validate
+          // postCreateNewAnswerForQuestion, postCreateQuestionForQuiz
+          // submit questions
+          await Promise.all(questions.map(async (question) => {
+               const q = await postCreateQuestionForQuiz(
+                    +selectedQuiz.value,
+                    question.description,
+                    question.imageFile
+               );
+               console.log("check q >> ", q);
+               // submit answers
+               await Promise.all(question.answers.map(async (answer) => {
+                    await postCreateNewAnswerForQuestion(
+                         answer.description, answer.isCorrect, q.DT.id
+                    )
+               }))
+          }));
 
      }
 
      const handlePreviewImage = (questionId) => {
           let questionsClone = _.cloneDeep(questions);
           let index = questionsClone.findIndex(item => item.id === questionId)
-          if(index > -1) {
+          if (index > -1) {
                setDataImagePreview({
                     url: URL.createObjectURL(questionsClone[index].imageFile),
                     title: questionsClone[index].imageName
@@ -170,7 +209,7 @@ const Questions = (props) => {
                          <Select
                               defaultValue={selectedQuiz}
                               onChange={setSelectedQuiz}
-                              options={options}
+                              options={listQuiz}
                          />
                     </div>
                     <div className='mt-3 mb-2'>
@@ -274,7 +313,7 @@ const Questions = (props) => {
                     {
                          questions && questions.length > 0 &&
                          <div>
-                              <button  
+                              <button
                                    onClick={() => handleSubmitQuestionForQuiz()}
                                    className='btn btn-warning'>Save Questions</button>
                          </div>

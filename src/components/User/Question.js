@@ -3,6 +3,7 @@ import { propTypes } from 'react-bootstrap/esm/Image';
 
 const Question = (props) => {
      const { data, index } = props;
+
      if (_.isEmpty(data)) {
           return (<></>)
      }
