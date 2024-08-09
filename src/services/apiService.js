@@ -97,7 +97,7 @@ const deleteQuiz = (quizId) => {
 const postCreateQuestionForQuiz = (quizId, description, image) => {
      const data = new FormData();
 
-     data.append('quizId', quizId);
+     data.append('quiz_id', quizId);
      data.append('description', description);
      data.append('questionImage', image);
 
