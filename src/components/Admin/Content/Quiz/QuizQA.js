@@ -5,8 +5,8 @@ import { AiFillPlusSquare, AiFillMinusCircle } from "react-icons/ai";
 import { RiImageAddFill } from "react-icons/ri"
 import { v4 as uuidv4 } from 'uuid';
 import {
-     getAllQuizForAdmin, postCreateNewAnswerForQuestion,
-     postCreateQuestionForQuiz, getQuizWithQA
+     getAllQuizForAdmin, getQuizWithQA,
+     postUpsertQA
 } from "../../../../services/apiService";
 import Lightbox from "react-awesome-lightbox";
 import _ from 'lodash';
@@ -62,9 +62,9 @@ const QuizQA = (props) => {
                let newQA = [];
                for (let i = 0; i < res.DT.qa.length; i++) {
                     let q = res.DT.qa[i];
-                    if(q.imageFile) {
+                    if (q.imageFile) {
                          q.imageName = `Question-${q.id}`;
-                         q.imageFile = await urltoFile(`data:image/png;base64,${q.imageFile}`,`Question-${q.id}`, `image/png`)
+                         q.imageFile = await urltoFile(`data:image/png;base64,${q.imageFile}`, `Question-${q.id}`, `image/png`)
                     }
                     newQA.push(q);
                }
@@ -255,23 +255,31 @@ const QuizQA = (props) => {
 
           // submit questions
 
-          for (const question of questions) {
-               const q = await postCreateQuestionForQuiz(
-                    +selectedQuiz.value,
-                    question.description,
-                    question.imageFile
-               );
-               // submit answers
-               for (const answer of question.answers) {
-                    await postCreateNewAnswerForQuestion(
-                         answer.description, answer.isCorrect, q.DT.id
-                    )
+          let questionsClone = _.cloneDeep(questions)
+          for (let i = 0; i < questionsClone.length; i++) {
+               if(questionsClone[i].imageFile) {
+                    questionsClone[i].imageFile = await toBase64(questionsClone[i].imageFile)
                }
           }
+          let res = await postUpsertQA({
+               quizId: selectedQuiz.value,
+               questions: questionsClone
+          });
 
-          toast.success('Create questions and answers success');
+          if(res && res.EC === 0) {
+               toast.success('Create questions and answers success');
+               fetchQuizWithQA();
+          }
 
+          // setQuestions(initQuestions);
      }
+
+     const toBase64 = file => new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = reject;
+     });
 
      const handlePreviewImage = (questionId) => {
           let questionsClone = _.cloneDeep(questions);
