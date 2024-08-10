@@ -5,6 +5,7 @@ import _ from "lodash";
 import './DetailQuiz.scss'
 import Question from "./Question";
 import ModalResult from "./ModalResult";
+import RightContent from "./Content/RightContent";
 
 const DetailQuiz = (props) => {
      const params = useParams();
@@ -81,7 +82,6 @@ const DetailQuiz = (props) => {
      }
 
      const handleFinish = async () => {
-          console.log('check data >> ', dataQuiz)
           let payload = {
                quizId: +quizId,
                answers: []
@@ -155,7 +155,10 @@ const DetailQuiz = (props) => {
                     </div>
                </div>
                <div className="right-content">
-                    countdown
+                    <RightContent
+                         handleFinishQuiz={handleFinish}
+                         dataQuiz={dataQuiz}
+                    />
                </div>
                <ModalResult
                     show={isShowModalResult}
