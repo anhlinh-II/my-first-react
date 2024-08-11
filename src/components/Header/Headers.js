@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../services/apiService';
 import { toast } from 'react-toastify';
 import { doLogout } from '../../redux/action/userAction';
+import Language from './Language';
 
 const Header = () => {
 
@@ -22,7 +23,7 @@ const Header = () => {
 
     const handleLogOut = async () => {
         let res = await logout("account.email", account.refresh_token);
-        if(res && res.EC === 0) {
+        if (res && res.EC === 0) {
             // clear redux data
             dispatch(doLogout())
             navigate('/login')
@@ -57,6 +58,7 @@ const Header = () => {
                                     <NavDropdown.Item onClick={() => handleLogOut()}>Log out</NavDropdown.Item>
                                 </NavDropdown>
                         }
+                        <Language />
                     </Nav>
                 </Navbar.Collapse>
             </Container>

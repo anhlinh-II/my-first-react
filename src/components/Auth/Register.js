@@ -4,6 +4,7 @@ import './Register.scss'
 import { postSignUp } from "../../services/apiService";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Language from "../Header/Language";
 
 const Register = () => {
 
@@ -27,8 +28,6 @@ const Register = () => {
           const isValidEmail = validateEmail(email)
           if (!isValidEmail) {
                toast.error("invalid email")
-               // toast.success()
-               // toast.info()
                return;
           }
 
@@ -40,7 +39,6 @@ const Register = () => {
           if(data && data.EC === 0) {
                toast.success(data.EM);
                navigate('/login');
-               // await props.fetchListUsers()
           }
 
           if(data && data.EC !== 0) {
@@ -60,7 +58,7 @@ const Register = () => {
           <>
                <div className="register-container">
                     <div className="title col-4 mx-auto">
-                         <span>Create an acount</span>
+                         <span>Create an account</span>
                     </div>
                     <div className="email col-4 mx-auto">
                          <label>Email</label>
@@ -92,6 +90,9 @@ const Register = () => {
                     </div>
                     <button className="login-btn" onClick={() => handleClickBtnSignup()}>SIGN UP</button>
                     <button className="login-btn" onClick={() => handleClickBtnLogin()}>ALREADY HAD AN ACCOUNT</button>
+                    <Language
+                         className="language"
+                    />
                </div>
           </>
      );
