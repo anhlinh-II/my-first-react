@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 const CountDown = (props) => {
 
-     const [count, setCount] = useState(5);
+     const [count, setCount] = useState(900);
 
      const a = new Date(count * 1000).toISOString().substring(11, 16);
 
