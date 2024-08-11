@@ -110,6 +110,12 @@ const postCreateNewAnswerForQuestion = (description, correct_answer, question_id
      })
 }
 
+const logout = (email, refresh_token) => {
+     return axios.post(`api/v1/logout`, {
+          email, refresh_token
+     })
+}
+
 const postAssignQuiz = (quizId, userId) => {
      return axios.post(`api/v1/quiz-assign-to-user`, {
           quizId, userId
@@ -134,5 +140,5 @@ export {
      putUpdateQuiz, deleteQuiz,
      postCreateQuestionForQuiz, postCreateNewAnswerForQuestion,
      postAssignQuiz, getQuizWithQA,
-     postUpsertQA
+     postUpsertQA, logout
 }

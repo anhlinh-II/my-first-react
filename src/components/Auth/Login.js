@@ -40,6 +40,12 @@ const Login = (props) => {
           navigate('/register')
      }
 
+     const handleOnKeyDown = (event) => {
+          if(event.key = "Enter") {
+               handleLogin();
+          }
+     }
+
      return (
           <div className="login-container">
                <div className='header'>
@@ -77,6 +83,7 @@ const Login = (props) => {
                               className='btn-submit'
                               onClick={() => handleLogin()}
                               disabled={isLoading}
+                              onKeyDown={(event) => handleOnKeyDown(event)}
                          >
                               { isLoading === true && <ImSpinner10 className='loader-icon' />}
                               <span> Login To ThuyVanNe</span>
