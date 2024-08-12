@@ -8,6 +8,7 @@ import { store, persistor } from './redux/store';
 import {
   BrowserRouter
 } from "react-router-dom";
+import i18n from './utils/i18n';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import 'nprogress/nprogress.css';
